@@ -1,7 +1,7 @@
 <template>
-   <div>
-      <h2>Галерея</h2>
-      <ul>
+   <div class="gallery">
+      <h2 class="gallery__title">Галерея</h2>
+      <ul class="gallery__list">
          <gallery-item        
          v-for="image in loadingImage"
          :key="image.url"
@@ -28,8 +28,8 @@ export default {
 }
 </script>
 
-<style scoped>
-   ul {      
+<style>
+   .gallery__list {      
       display: flex;      
       flex-wrap: wrap;           
       margin: 0px; 
@@ -37,9 +37,9 @@ export default {
       justify-content: center;
       padding: 30px 0px;
    } 
-   h2 {
+   .gallery__title {
       font-size: 28px; 
       padding-top: 20px;
-   } 
+   }  
 </style>
 

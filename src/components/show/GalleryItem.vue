@@ -1,5 +1,5 @@
 <template>   
-   <li>      
+   <li class="card">      
       <img :src="url" alt=""> 
       <span class="btn" @click="removeImage"></span>         
    </li>
@@ -61,7 +61,6 @@ export default {
       border-radius: 50%;
       opacity: 0.8;
    }
-
    .btn:before,
    .btn:after {
       content: "";
@@ -72,11 +71,9 @@ export default {
       height: 3px;
       background: #e62f57;
    }
-
    .btn:before {      
       transform: rotate(45deg);
    }
-
    .btn:after {      
       transform: rotate(-45deg);
    }
@@ -85,5 +82,5 @@ export default {
    }
    .btn:hover {
       z-index: 2;
-   } 
+   }    
    </style>

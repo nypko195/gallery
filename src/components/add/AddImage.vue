@@ -3,12 +3,22 @@
       <section class="add-block">
          <h2 class="add-block__title">Добавьте свое изображение</h2>
          <label>
-            <input class="add-block__inp" type="text" placeholder="Введите url картинки" v-model.trim="url">
+            <input class="add-block__inp" type="text" placeholder="Введите url картинки" v-model.trim="url">           
          </label>
-         <button @click="addImages" class="add-block__btn">Загрузить</button>
+         <button @click="addImages" class="add-block__btn">Загрузить</button>         
       </section>     
-      <section class="gallery-block" v-if="!show">
-         <show-gallery></show-gallery>
+      <section class="gallery-block dropzone"
+      @dragover.prevent
+      @dragenter.prevent
+      @dragstart.prevent
+      @drop.prevent="handleFileChange($event.dataTransfer)"
+      >
+      <input
+      id="file-input"
+      type="file"
+      accept="image/png, image.jpeg"
+      @change="handleFileChange($event.target)">
+         <show-gallery></show-gallery>         
       </section>      
    </div>
 </template>
@@ -22,29 +32,34 @@ export default {
    },
    data() {
       return {
-         url: '',
-         show: false,
+         url: '',  
+         selectedFile: null,
+         image: '',       
       }
    },
    methods: {
       addImages() {
          this.$store.commit('enterUrl', {
             newUrl: this.url
-         });
-         
-         this.$store.dispatch('addImageArray')
+         });   
 
          if(this.url === '') {
             return
          }                 
          this.url = ''
-      },     
-   }, 
-   
+         this.$store.dispatch('addImageArray')
+      }, 
+      handleFileChange: function(event) {        
+         let selectedFile = URL.createObjectURL(event.files[0]);         
+         let objFile = {
+            url: ''
+         }
+         objFile.url = selectedFile;         
+         this.$store.commit('addNewImageArr', objFile);                  
+      },                   
+   },   
 }
 </script>
-
-
 
 <style> 
    .add-block {
@@ -80,4 +95,38 @@ export default {
       padding: 3px 3px;
       border-radius: 5px;
    }
+   @media (max-width: 870px) {
+      .add-block {
+         margin: 10px 15px 0px 15px;
+      }
+      .gallery-block {
+         margin: 50px 15px 0px 15px;
+      }
+   }
+   @media (max-width: 400px) {
+      .add-block__btn {
+         margin-top: 20px;
+      }
+      .add-block {
+      padding: 10px;      
+      }
+   }
+
+
+   .dropzone .active { 
+   opacity: 0.15; 
+   background: #fdfdfd;
+   border-radius: 5px;
+   border: 2px dashed #000;
+   background: #40E7F2;   
+   }
+
+input[type="file"] {
+   position: absolute;
+   opacity: 0;
+   width: inherit;
+   min-height: 200px;
+   max-height: 400px;
+   cursor: pointer;
+}  
 </style>
