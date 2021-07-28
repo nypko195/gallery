@@ -7,7 +7,8 @@
 <style scoped>
    section {
       max-width: 860px;
-      margin: 0 auto;
-      text-align: center;          
+      margin: 10px auto;
+      text-align: center;
+
    }
 </style>

@@ -18,14 +18,15 @@ export default {
    /*Обнуление*/
    body {
       height: 100%;
-      background: #40E7F2;   
+      background: #40E7F2; 
+      margin: 0 auto;  
    }
    *{padding:0;margin:0;border:0;}
    *,*:before,*:after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box;}
    :focus,:active{outline:none;}
    a:focus,a:active{outline:none;}
    nav,footer,header,aside{display:block;}
-   html,body{height:100%;width:100%;font-size:100%;line-height:1;font-size:14px;-ms-text-size-adjust:100%;-moz-text-size-adjust:100%;-webkit-text-size-adjust:100%;}
+   html,body{height:100%;font-size:100%;line-height:1;font-size:14px;-ms-text-size-adjust:100%;-moz-text-size-adjust:100%;-webkit-text-size-adjust:100%;}
    input,button,textarea{font-family:inherit;}
    input::-ms-clear{display:none;}
    button{cursor:pointer;}

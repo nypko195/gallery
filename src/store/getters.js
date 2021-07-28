@@ -1,6 +1,6 @@
 export default {
    urlNewImage(state) {
-      return state.url;
+      return state.addImageUrl;
    },
    arrUrls(state) {
       return state.listUrls;

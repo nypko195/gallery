@@ -1,6 +1,6 @@
 export default {
    enterUrl(state, payload) {
-      state.url = payload.newUrl;
+      state.addImageUrl = payload.newUrl;
    },
    readyListUrl(state, payload) {
       state.listUrls = payload;

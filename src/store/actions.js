@@ -1,9 +1,11 @@
-import urls from '../url.json';
+
 
 export default {
-   createdGallery(context) {
-      console.log(urls.galleryImages)
-      context.commit('readyListUrl', urls.galleryImages)
+   async createdGallery(context) {       
+      let response = await fetch('https://don16obqbay2c.cloudfront.net/frontend-test-task/gallery-images.json')
+      let readyArrayImages = await response.json();
+      console.log(readyArrayImages);    
+      context.commit('readyListUrl', readyArrayImages.galleryImages)
       console.log('created')
    },
    addImageArray(context) {     

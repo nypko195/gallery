@@ -28,7 +28,7 @@ export default {
 }
 </script>
 
-<style>
+<style>   
    .gallery__list {      
       display: flex;      
       flex-wrap: wrap;           

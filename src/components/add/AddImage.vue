@@ -7,17 +7,22 @@
          </label>
          <button @click="addImages" class="add-block__btn">Загрузить</button>         
       </section>     
-      <section class="gallery-block dropzone"
+      <section class="gallery-block"      
+      @dragover="addActiveClass"
+      @drop="removeActiveClass"      
       @dragover.prevent
       @dragenter.prevent
       @dragstart.prevent
       @drop.prevent="handleFileChange($event.dataTransfer)"
-      >
-      <input
-      id="file-input"
-      type="file"
-      accept="image/png, image.jpeg"
-      @change="handleFileChange($event.target)">
+      >     
+         <div class="gallery-block__drop-zone" ref="zone" @dragleave="removeActiveClass">
+            <span class="gallery-block__drop-zone-text">Перетащите сюда Вашу картинку</span>
+            <input            
+               id="file-input"
+               type="file"
+               accept="image/png, image.jpeg"
+               @change="handleFileChange($event.target)"> 
+         </div>
          <show-gallery></show-gallery>         
       </section>      
    </div>
@@ -36,6 +41,9 @@ export default {
          selectedFile: null,
          image: '',       
       }
+   },
+   computed: {
+
    },
    methods: {
       addImages() {
@@ -56,21 +64,31 @@ export default {
          }
          objFile.url = selectedFile;         
          this.$store.commit('addNewImageArr', objFile);                  
-      },                   
+      }, 
+      addActiveClass() {
+         console.log('active')
+         let domElementDrop = this.$refs.zone;         
+         domElementDrop.classList.add('active')
+      },
+      removeActiveClass() {   
+         console.log('remove')     
+         let domElementDrop = this.$refs.zone;
+         domElementDrop.classList.remove('active')
+      }                 
    },   
 }
 </script>
 
 <style> 
-   .add-block {
-      margin-top: 10px;      
+   .add-block {         
       background: #FFFFFF;
       border-radius: 10px;      
    }
    .gallery-block {
       margin-top: 50px;      
       background: #FFFFFF;
-      border-radius: 10px;      
+      border-radius: 10px; 
+      position: relative;     
    }
    .add-block {
       padding: 30px;      
@@ -94,39 +112,56 @@ export default {
       font-size: 18px;
       padding: 3px 3px;
       border-radius: 5px;
+   }  
+   .gallery-block__drop-zone{     
+      display: none;      
+      z-index: 3;
+      position: absolute;
+      text-align: center;
+      width: 100%;
+      height: 100%;           
+      background: #A3DBFF;
+      border: 3px dashed #333; 
+      border-radius: 10px;
+      opacity: 0.9;  
    }
+   .active {
+      display: block;      
+   }
+   .gallery-block__drop-zone-text {      
+      font-size: 24px;
+      color: #000;
+      font-weight: 700;
+      text-align: center;
+      position: absolute;
+      top: 50%;
+      left: 29%;
+   }
+   input[type="file"] {
+      position: absolute;
+      opacity: 0;
+      width: inherit;
+      min-height: 0.1px;
+      max-height: 0.1px;
+      cursor: pointer;
+   } 
    @media (max-width: 870px) {
       .add-block {
          margin: 10px 15px 0px 15px;
       }
       .gallery-block {
          margin: 50px 15px 0px 15px;
-      }
-   }
+      }  
+      .gallery-block__drop-zone-text {
+         display: none;
+      }    
+   }   
    @media (max-width: 400px) {
       .add-block__btn {
          margin-top: 20px;
       }
       .add-block {
-      padding: 10px;      
-      }
-   }
-
-
-   .dropzone .active { 
-   opacity: 0.15; 
-   background: #fdfdfd;
-   border-radius: 5px;
-   border: 2px dashed #000;
-   background: #40E7F2;   
-   }
-
-input[type="file"] {
-   position: absolute;
-   opacity: 0;
-   width: inherit;
-   min-height: 200px;
-   max-height: 400px;
-   cursor: pointer;
-}  
+         padding: 10px;      
+      }      
+   }   
 </style>
