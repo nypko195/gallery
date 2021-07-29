@@ -3,9 +3,13 @@
       <section class="add-block">
          <h2 class="add-block__title">Добавьте свое изображение</h2>
          <label>
-            <input class="add-block__inp" type="text" placeholder="Введите url картинки" v-model.trim="url">           
+            <input 
+            @keyup.enter="addImages"
+            class="add-block__inp" 
+            type="text" placeholder="Введите url картинки" 
+            v-model.trim="url">           
          </label>
-         <button @click="addImages" class="add-block__btn">Загрузить</button>         
+         <button @click="addImages" @keyup.enter="addImages" class="add-block__btn">Загрузить</button>         
       </section>     
       <section class="gallery-block"      
       @dragover="addActiveClass"
@@ -37,33 +41,23 @@ export default {
    },
    data() {
       return {
-         url: '',  
-         selectedFile: null,
-         image: '',       
+         url: '',                   
       }
-   },
-   computed: {
-
-   },
+   },  
    methods: {
       addImages() {
          this.$store.commit('enterUrl', {
             newUrl: this.url
-         });   
-
-         if(this.url === '') {
-            return
-         }                 
+         });
+         
          this.url = ''
-         this.$store.dispatch('addImageArray')
+         this.$store.dispatch('addImageToArray')
       }, 
-      handleFileChange: function(event) {        
+      handleFileChange(event) {        
          let selectedFile = URL.createObjectURL(event.files[0]);         
-         let objFile = {
-            url: ''
-         }
-         objFile.url = selectedFile;         
-         this.$store.commit('addNewImageArr', objFile);                  
+         let infoAboutAddImage = {}
+         infoAboutAddImage.url = selectedFile;         
+         this.$store.commit('addNewImageArr', infoAboutAddImage);                  
       }, 
       addActiveClass() {
          console.log('active')
@@ -103,6 +97,7 @@ export default {
       font-size: 18px;
       padding: 3px 0px;
       border-radius: 5px;
+      cursor: pointer;
    }
    .add-block__btn {
       margin-left: 10px;

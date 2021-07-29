@@ -1,19 +1,39 @@
 <template>   
-   <li class="card">      
-      <img :src="url" alt=""> 
+   <li class="gallery__list-card">   
+      <base-spinner v-show="isShowAnimation"></base-spinner>       
+      <img :src="url" alt="" ref="image" v-show="isShowImage">         
       <span class="btn" @click="removeImage"></span>         
-   </li>
+   </li>    
 </template>
 
 <script>
+import BaseSpinner from '../../ui/BaseSpinner.vue';
+import { mapGetters } from 'vuex'
+
 export default {
-   props: [ 'url'],
-   methods: {
-      removeImage() {          
-         let formattedListUrls = this.$store.getters.arrUrls.filter(arr => arr.url != this.url);         
-         this.$store.commit('readyListUrl', formattedListUrls);  
+   components: {
+      BaseSpinner,
+   },
+   props: {
+      url: {
+         type: String,         
+      },
+      isShowAnimation: {
+         type: Boolean,
+      },
+      isShowImage: {
+         type: Boolean,
       }
-   }   
+   },  
+   computed: {
+      ...mapGetters(['listUrls'])
+   },
+   methods: {
+      removeImage() {                
+         const removedDeletedImage = this.listUrls.filter(arr => arr.url != this.url);         
+         this.$store.commit('readyListUrl', removedDeletedImage);  
+      },      
+   },                    
 }
 </script>
 
@@ -82,5 +102,17 @@ export default {
    }
    .btn:hover {
       z-index: 2;
-   }    
+   }  
+   @media (max-width: 870px) {
+      li {           
+      margin: 5px; 
+      width: 300px;
+      height: 300px;
+      position: relative;
+      overflow: hidden;
+   } 
+   }   
+   @media (max-width: 400px) {
+            
+   }   
    </style>

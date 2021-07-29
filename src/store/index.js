@@ -8,7 +8,7 @@ const store = createStore({
    store() {
       return {
          listUrls: [],
-         addImageUrl: '',
+         urlAddedImage: '',
       }
    },
    mutations,
