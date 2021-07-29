@@ -2,12 +2,16 @@
    <div>      
       <section class="add-block">
          <h2 class="add-block__title">Добавьте свое изображение</h2>
-         <label>
+         <label class="add-block__label">
             <input 
             @keyup.enter="addImages"
-            class="add-block__inp" 
+            class="add-block__inp_image" 
             type="text" placeholder="Введите url картинки" 
-            v-model.trim="url">           
+            v-model.trim="url"> 
+            <input 
+            type="file"
+            class="add-block__inp_file"
+            @change="handleFileChange($event.target)" >          
          </label>
          <button @click="addImages" @keyup.enter="addImages" class="add-block__btn">Загрузить</button>         
       </section>     
@@ -21,7 +25,8 @@
       >     
          <div class="gallery-block__drop-zone" ref="zone" @dragleave="removeActiveClass">
             <span class="gallery-block__drop-zone-text">Перетащите сюда Вашу картинку</span>
-            <input            
+            <input 
+               class="gallery-block__drop-zone-inp"          
                id="file-input"
                type="file"
                accept="image/png, image.jpeg"
@@ -34,8 +39,10 @@
 
 <script>
 import ShowGallery from '../show/ShowGallery.vue';
+import AnimationsMixins from '../mixins/AnimationsMixins.js';
 
 export default {
+   mixins: [AnimationsMixins],
    components: {
       ShowGallery      
    },
@@ -49,16 +56,44 @@ export default {
          this.$store.commit('enterUrl', {
             newUrl: this.url
          });
-         
+         this.showAnimation(); 
          this.url = ''
          this.$store.dispatch('addImageToArray')
+         this.hideAnimation(); 
       }, 
-      handleFileChange(event) {        
+      addImageJpg(event) {
+         console.log('image')
          let selectedFile = URL.createObjectURL(event.files[0]);         
          let infoAboutAddImage = {}
          infoAboutAddImage.url = selectedFile;         
-         this.$store.commit('addNewImageArr', infoAboutAddImage);                  
-      }, 
+         this.$store.commit('addNewImageArr', infoAboutAddImage);      
+      },
+      addImageJson(event) {
+         console.log('json')
+
+         const file = event.files[0];
+         const reader = new FileReader();
+         reader.readAsText(file);              
+         reader.onload = function() {
+            console.log(reader)
+            console.log(reader.result) 
+            console.log(reader.result.galleryImages)           
+            console.log(JSON.parse(reader.result));
+         }  
+         console.log(reader);                       
+      },
+      handleFileChange(event) { 
+         console.log(event.files[0].type)            
+         if(event.files[0].type !== 'application/json' ) {
+            this.showAnimation();             
+            this.addImageJpg(event);  
+            this.hideAnimation()            
+         } else {  
+            this.showAnimation();          
+            this.addImageJson(event);
+            this.hideAnimation() 
+         }                     
+      },      
       addActiveClass() {
          console.log('active')
          let domElementDrop = this.$refs.zone;         
@@ -68,7 +103,7 @@ export default {
          console.log('remove')     
          let domElementDrop = this.$refs.zone;
          domElementDrop.classList.remove('active')
-      }                 
+      },                   
    },   
 }
 </script>
@@ -90,14 +125,26 @@ export default {
    .add-block__title {
       font-size: 28px;      
    }
-   .add-block__inp {
-      margin-top: 20px;
+   .add-block__label {
+      margin: 20px 0px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+   }
+   .add-block__inp_image {      
       border: 2px solid #40E7F2;
       text-align: center;
       font-size: 18px;
       padding: 3px 0px;
-      border-radius: 5px;
+      border-radius: 5px;      
       cursor: pointer;
+   }
+   .add-block__inp_file {
+      margin: 0px 0 0 10px;
+      cursor: pointer;
+      border: 2px solid #40E7F2;
+      padding: 3px 3px;
+      border-radius: 5px;
    }
    .add-block__btn {
       margin-left: 10px;
@@ -132,7 +179,7 @@ export default {
       top: 50%;
       left: 29%;
    }
-   input[type="file"] {
+   .gallery-block__drop-zone-inp {
       position: absolute;
       opacity: 0;
       width: inherit;

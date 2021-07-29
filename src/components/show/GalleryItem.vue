@@ -1,7 +1,7 @@
 <template>   
-   <li class="gallery__list-card">   
-      <base-spinner v-show="isShowAnimation"></base-spinner>       
-      <img :src="url" alt="" ref="image" v-show="isShowImage">         
+   <li class="gallery__list-card">
+      <base-spinner v-show="readyisShowAnimation"></base-spinner>       
+      <img :src="url" alt="" ref="image" v-show="readyIsShowImage">                    
       <span class="btn" @click="removeImage"></span>         
    </li>    
 </template>
@@ -17,16 +17,20 @@ export default {
    props: {
       url: {
          type: String,         
-      },
-      isShowAnimation: {
-         type: Boolean,
-      },
-      isShowImage: {
-         type: Boolean,
-      }
+      },     
    },  
    computed: {
-      ...mapGetters(['listUrls'])
+      ...mapGetters([
+         'listUrls',
+         'isShowAnimation',
+         'isShowImage'
+      ]),
+      readyIsShowImage() {
+         return this.isShowImage
+      },
+      readyisShowAnimation() {
+         return this.isShowAnimation;
+      }
    },
    methods: {
       removeImage() {                

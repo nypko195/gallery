@@ -10,5 +10,11 @@ export default {
    },
    addNewImageArr(state, payload) {
       state.listUrls.push(payload)
+   },
+   updateIsShowAnimation(state, payload) {
+      state.isShowAnimation = payload;
+   },
+   updateIsShowImage(state, payload) {      
+      state.isShowImage = payload;
    }
 }
