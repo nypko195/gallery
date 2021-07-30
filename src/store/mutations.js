@@ -6,11 +6,12 @@ export default {
       state.urlAddedImage = payload.newUrl;
    },
    readyListUrl(state, payload) {
-      state.listUrls = payload;
-   },
-   addNewImageArr(state, payload) {
-      state.listUrls.push(payload)
-   },
+      if(!!payload === Array.isArray(payload)) {         
+         state.listUrls = payload;
+      } else {         
+         state.listUrls.push(payload)
+      }      
+   },   
    updateIsShowAnimation(state, payload) {
       state.isShowAnimation = payload;
    },

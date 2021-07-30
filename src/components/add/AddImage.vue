@@ -65,42 +65,40 @@ export default {
          console.log('image')
          let selectedFile = URL.createObjectURL(event.files[0]);         
          let infoAboutAddImage = {}
-         infoAboutAddImage.url = selectedFile;         
-         this.$store.commit('addNewImageArr', infoAboutAddImage);      
+         infoAboutAddImage.url = selectedFile; 
+         console.log(infoAboutAddImage)        
+         this.$store.commit('readyListUrl', infoAboutAddImage);      
       },
       addImageJson(event) {
          console.log('json')
+         const fileJson = event.files[0];
+         const reader = new FileReader();              
+         reader.readAsText(fileJson);
 
-         const file = event.files[0];
-         const reader = new FileReader();
-         reader.readAsText(file);              
-         reader.onload = function() {
-            console.log(reader)
-            console.log(reader.result) 
-            console.log(reader.result.galleryImages)           
-            console.log(JSON.parse(reader.result));
-         }  
-         console.log(reader);                       
+         let objUrl = {};
+
+         reader.onload =  function() {
+            let fileObj =  JSON.parse(reader.result);                             
+            objUrl.url =  fileObj.galleryImages[0].url;                           
+         } 
+         this.$store.commit('readyListUrl', objUrl);       
       },
-      handleFileChange(event) { 
-         console.log(event.files[0].type)            
-         if(event.files[0].type !== 'application/json' ) {
-            this.showAnimation();             
-            this.addImageJpg(event);  
-            this.hideAnimation()            
-         } else {  
+      handleFileChange(event) {                    
+         if(event.files[0].type === 'application/json' ) {
             this.showAnimation();          
             this.addImageJson(event);
-            this.hideAnimation() 
+            this.hideAnimation()          
+         } else {
+            this.showAnimation();             
+            this.addImageJpg(event);  
+            this.hideAnimation()
          }                     
       },      
-      addActiveClass() {
-         console.log('active')
+      addActiveClass() {         
          let domElementDrop = this.$refs.zone;         
          domElementDrop.classList.add('active')
       },
-      removeActiveClass() {   
-         console.log('remove')     
+      removeActiveClass() {              
          let domElementDrop = this.$refs.zone;
          domElementDrop.classList.remove('active')
       },                   

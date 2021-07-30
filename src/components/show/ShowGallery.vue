@@ -6,7 +6,8 @@
          v-for="image in loadingImage"
          :key="image.url"
          :url="image.url"></gallery-item>
-      </ul>      
+      </ul> 
+      <button @click="mounted"></button>     
    </div>    
 </template>
 
@@ -25,7 +26,7 @@ export default {
       ...mapGetters([
       'listUrls',              
       ]),
-      loadingImage() {                       
+      loadingImage() {                               
          return this.listUrls          
       },           
    },    
@@ -35,10 +36,13 @@ export default {
          await this.$store.dispatch('createdGallery');         
          this.hideAnimation();       
       }
-   },      
+   },        
+   created() {     
+      this.placeholderForImages();      
+   },
    mounted() {
-      this.placeholderForImages();
-   }  
+      console.log(this.loadingImage)
+   },      
 }
 </script>
 
