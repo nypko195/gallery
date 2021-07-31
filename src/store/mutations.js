@@ -5,11 +5,11 @@ export default {
       } 
       state.urlAddedImage = payload.newUrl;
    },
-   readyListUrl(state, payload) {
+   async readyListUrl(state, payload) {
       if(!!payload === Array.isArray(payload)) {         
          state.listUrls = payload;
       } else {         
-         state.listUrls.push(payload)
+         await state.listUrls.push(payload)
       }      
    },   
    updateIsShowAnimation(state, payload) {

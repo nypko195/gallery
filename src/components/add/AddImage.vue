@@ -75,14 +75,19 @@ export default {
          const reader = new FileReader();              
          reader.readAsText(fileJson);
 
-         let objUrl = {};         
-         reader.onload =  function() {
-            let fileObj =  JSON.parse(reader.result);                             
-            objUrl.url =  fileObj.galleryImages[0].url;                           
-         } 
-         setTimeout(() => {
-            this.$store.commit('readyListUrl', objUrl);   
-         }, 50)            
+         const vm = this;
+         reader.onload = function() {
+            console.log(reader.result)
+            const galleryImages = JSON.parse(reader.result);
+            for(let key in galleryImages) {
+               galleryImages[key].forEach((image) => {
+                  const itemURL = {
+                     url: image.url,
+                  };
+                  vm.$store.commit('readyListUrl', itemURL);
+               });
+            }
+         }           
       },      
       handleFileChange(event) {                    
          if(event.files[0].type === 'application/json' ) {
