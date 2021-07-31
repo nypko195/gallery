@@ -60,7 +60,7 @@ export default {
          this.url = ''
          this.$store.dispatch('addImageToArray')
          this.hideAnimation(); 
-      }, 
+      },
       addImageJpg(event) {
          console.log('image')
          let selectedFile = URL.createObjectURL(event.files[0]);         
@@ -75,14 +75,15 @@ export default {
          const reader = new FileReader();              
          reader.readAsText(fileJson);
 
-         let objUrl = {};
-
+         let objUrl = {};         
          reader.onload =  function() {
             let fileObj =  JSON.parse(reader.result);                             
             objUrl.url =  fileObj.galleryImages[0].url;                           
          } 
-         this.$store.commit('readyListUrl', objUrl);       
-      },
+         setTimeout(() => {
+            this.$store.commit('readyListUrl', objUrl);   
+         }, 50)            
+      },      
       handleFileChange(event) {                    
          if(event.files[0].type === 'application/json' ) {
             this.showAnimation();          
@@ -93,7 +94,7 @@ export default {
             this.addImageJpg(event);  
             this.hideAnimation()
          }                     
-      },      
+      },           
       addActiveClass() {         
          let domElementDrop = this.$refs.zone;         
          domElementDrop.classList.add('active')

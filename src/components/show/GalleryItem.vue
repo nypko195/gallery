@@ -35,12 +35,9 @@ export default {
    methods: {
       removeImage() {                
          const removedDeletedImage = this.listUrls.filter(arr => arr.url != this.url);         
-         this.$store.commit('readyListUrl', removedDeletedImage);  
+         this.$store.commit('readyListUrl', removedDeletedImage);        
       },      
-   }, 
-   mounted() {      
-      console.log(this.url)
-   }                   
+   },                      
 }
 </script>
 

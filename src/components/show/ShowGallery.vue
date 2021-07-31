@@ -4,7 +4,7 @@
       <ul class="gallery__list">                   
          <gallery-item                                   
          v-for="image in loadingImage"
-         :key="image.url"
+         :key="image.url" 
          :url="image.url"></gallery-item>
       </ul> 
       <button @click="mounted"></button>     
@@ -39,10 +39,7 @@ export default {
    },        
    created() {     
       this.placeholderForImages();      
-   },
-   mounted() {
-      console.log(this.loadingImage)
-   },      
+   },       
 }
 </script>
 
