@@ -76,12 +76,11 @@ export default {
          reader.readAsText(fileJson);
 
          const vm = this;
-         reader.onload = function() {
-            console.log(reader.result)
-            const galleryImages = JSON.parse(reader.result);
+         reader.onload = function() {            
+            const galleryImages = JSON.parse(reader.result);            
             for(let key in galleryImages) {
-               galleryImages[key].forEach((image) => {
-                  const itemURL = {
+               galleryImages[key].forEach((image) => {                  
+                  const itemURL = {                     
                      url: image.url,
                   };
                   vm.$store.commit('readyListUrl', itemURL);
