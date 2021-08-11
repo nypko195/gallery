@@ -1,9 +1,6 @@
 export default {
    enterUrl(state, payload) {
-      if(payload.newUrl === '') {
-         return
-      } 
-      state.urlAddedImage = payload.newUrl;
+      state.urlAddedImage = payload.newUrl;     
    },
    async readyListUrl(state, payload) {
       if(!!payload === Array.isArray(payload)) {         

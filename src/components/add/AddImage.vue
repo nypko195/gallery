@@ -10,6 +10,7 @@
             v-model.trim="url"> 
             <input 
             type="file"
+            ref="inputJson"
             class="add-block__inp_file"
             @change="handleFileChange($event.target)" >          
          </label>
@@ -52,21 +53,24 @@ export default {
       }
    },  
    methods: {
-      addImages() {
-         this.$store.commit('enterUrl', {
-            newUrl: this.url
-         });
+      addImages() {         
          this.showAnimation(); 
-         this.url = ''
-         this.$store.dispatch('addImageToArray')
+         
+         this.$store.commit('enterUrl', {
+            newUrl: this.url         
+         });
+         
+         if(this.url !== '') {            
+            this.$store.dispatch('addImageToArray')
+         }
+         this.url = ''         
          this.hideAnimation(); 
       },
       addImageJpg(event) {
          console.log('image')
          let selectedFile = URL.createObjectURL(event.files[0]);         
          let infoAboutAddImage = {}
-         infoAboutAddImage.url = selectedFile; 
-         console.log(infoAboutAddImage)        
+         infoAboutAddImage.url = selectedFile;               
          this.$store.commit('readyListUrl', infoAboutAddImage);      
       },
       addImageJson(event) {
@@ -86,13 +90,14 @@ export default {
                   vm.$store.commit('readyListUrl', itemURL);
                });
             }
-         }           
+         }
+         this.$refs.inputJson.value = '';           
       },      
       handleFileChange(event) {                    
          if(event.files[0].type === 'application/json' ) {
             this.showAnimation();          
             this.addImageJson(event);
-            this.hideAnimation()          
+            this.hideAnimation()                    
          } else {
             this.showAnimation();             
             this.addImageJpg(event);  

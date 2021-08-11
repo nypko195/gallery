@@ -17,7 +17,7 @@ export default {
    props: {
       url: {
          type: String,         
-      },     
+      },                    
    },  
    computed: {
       ...mapGetters([
@@ -33,7 +33,7 @@ export default {
       }
    },
    methods: {
-      removeImage() {                
+      removeImage() {                                               
          const removedDeletedImage = this.listUrls.filter(arr => arr.url != this.url);         
          this.$store.commit('readyListUrl', removedDeletedImage);        
       },      
@@ -43,12 +43,12 @@ export default {
 
 <style scoped> 
  /*полу годный  */
-   /* li { 
+   /* li {      
       list-style-type: none;          
       margin: 5px;
       height: 150px;                
    }
-   img {
+   img {       
       width: auto;
       height: 100%;
       object-fit: cover;              
@@ -67,12 +67,13 @@ export default {
       left: 0;
       right: 0;
       top: 0;
-      bottom: 0;      
-      width: 100%; 
+      bottom: 0; 
+      width: 100%;      
+      max-width: 100%; 
       height: 100%;
       object-fit: cover;  
-      border-radius: 10px;
-   }  
+      border-radius: 10px; } 
+   
    .btn{
       z-index: 1;
       position: absolute;

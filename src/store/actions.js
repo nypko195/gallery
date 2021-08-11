@@ -6,7 +6,7 @@ export default {
    },
    addImageToArray(context) {     
       const objNewUrl = {};
-      objNewUrl.url = context.getters.urlAddedImage;     
+      objNewUrl.url = context.getters.urlAddedImage;          
       context.commit('readyListUrl', objNewUrl)     
    }   
 }

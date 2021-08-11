@@ -5,7 +5,8 @@
          <gallery-item                                   
          v-for="image in loadingImage"
          :key="image.url" 
-         :url="image.url"></gallery-item>
+         :url="image.url"
+         ></gallery-item>
       </ul> 
       <button @click="mounted"></button>     
    </div>    
@@ -37,7 +38,7 @@ export default {
          this.hideAnimation();       
       }
    },        
-   created() {     
+   created() {       
       this.placeholderForImages();      
    },       
 }
